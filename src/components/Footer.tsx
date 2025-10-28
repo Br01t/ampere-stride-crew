@@ -1,4 +1,4 @@
-import { Heart } from "lucide-react";
+import { Heart, Instagram } from "lucide-react";
 
 const Footer = () => {
   return (
@@ -8,9 +8,23 @@ const Footer = () => {
           <h3 className="text-2xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
             Ampere Running Club
           </h3>
+
           <p className="text-center text-secondary-foreground/80 flex items-center gap-2">
             Made with <Heart className="h-4 w-4 text-primary fill-primary" /> by four friends who love running
           </p>
+
+          {/* Nuovo blocco con Instagram */}
+          <div className="flex items-center gap-4">
+            <a
+              href="https://www.instagram.com/ampererunningclub/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-secondary-foreground/80 hover:text-primary"
+            >
+              <Instagram className="h-6 w-6" />
+            </a>
+          </div>
+
           <p className="text-sm text-secondary-foreground/60">
             © {new Date().getFullYear()} Ampere Running Club. Tutti i diritti riservati.
           </p>
