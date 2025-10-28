@@ -30,7 +30,6 @@ const founders = [
 ];
 
 const FounderPage = () => {
-  // Forza lo scroll all’inizio della pagina
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -48,7 +47,10 @@ const FounderPage = () => {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
           {founders.map((founder) => (
-            <Card key={founder.name} className="text-left">
+            <Card
+              key={founder.name}
+              className="text-left border-2 border-transparent transition-all duration-300 transform hover:-translate-y-2 hover:shadow-xl hover:border-primary hover:shadow-[0_0_15px_rgba(59,130,246,0.7)]"
+            >
               <CardHeader>
                 <Avatar className="w-24 h-24 mb-4">
                   <AvatarImage src={founder.img} alt={founder.name} />
