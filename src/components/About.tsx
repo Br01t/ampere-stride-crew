@@ -1,0 +1,77 @@
+import { Heart, Users, Trophy, Target } from "lucide-react";
+import { Card, CardContent } from "@/components/ui/card";
+
+const About = () => {
+  const values = [
+    {
+      icon: Heart,
+      title: "Passione",
+      description: "La corsa è nel nostro DNA. Ogni passo è un'emozione condivisa.",
+    },
+    {
+      icon: Users,
+      title: "Comunità",
+      description: "Quattro amici che corrono insieme, crescono insieme.",
+    },
+    {
+      icon: Trophy,
+      title: "Obiettivi",
+      description: "Spingerci oltre i nostri limiti, un chilometro alla volta.",
+    },
+    {
+      icon: Target,
+      title: "Determinazione",
+      description: "Ogni allenamento è un passo verso i nostri sogni.",
+    },
+  ];
+
+  return (
+    <section id="about" className="py-24 bg-gradient-to-b from-background to-muted/30">
+      <div className="container mx-auto px-4">
+        <div className="text-center mb-16 animate-fade-in">
+          <h2 className="text-4xl md:text-5xl font-bold mb-4">Chi Siamo</h2>
+          <div className="w-20 h-1 bg-gradient-to-r from-primary to-accent mx-auto mb-6" />
+          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+            Ampere Running Club nasce dall'amicizia di quattro runner che vivono nella stessa
+            strada. Quello che è iniziato come un modo per allenarsi insieme si è trasformato
+            in una passione condivisa che ci spinge ogni giorno a dare il massimo.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
+          {values.map((value, index) => (
+            <Card
+              key={index}
+              className="border-2 hover:border-primary transition-all duration-300 hover:shadow-lg hover:-translate-y-1"
+            >
+              <CardContent className="pt-6 text-center">
+                <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gradient-to-br from-primary to-accent mb-4">
+                  <value.icon className="h-8 w-8 text-primary-foreground" />
+                </div>
+                <h3 className="text-xl font-bold mb-2">{value.title}</h3>
+                <p className="text-muted-foreground">{value.description}</p>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+
+        <div className="max-w-3xl mx-auto text-center space-y-6">
+          <h3 className="text-2xl font-bold">Il Nostro Scopo</h3>
+          <p className="text-lg text-muted-foreground">
+            L'Ampere Running Club è più di un semplice gruppo di amici che corrono insieme.
+            È una comunità che celebra la passione per la corsa, promuove uno stile di vita
+            sano e incoraggia il superamento dei propri limiti personali.
+          </p>
+          <p className="text-lg text-muted-foreground">
+            Che tu sia un principiante o un runner esperto, crediamo che la corsa sia un
+            viaggio personale che diventa straordinario quando condiviso con gli altri.
+            Ogni allenamento è un'opportunità per crescere, motivarci a vicenda e celebrare
+            insieme ogni traguardo raggiunto.
+          </p>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default About;
