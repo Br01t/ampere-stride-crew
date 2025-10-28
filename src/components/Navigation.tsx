@@ -51,7 +51,10 @@ const Navigation = () => {
   return (
     <nav
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300
-        bg-white md:${isScrolled ? "bg-background/95 backdrop-blur-md shadow-lg" : "bg-transparent"}`}
+        ${isScrolled 
+          ? "bg-background/95 backdrop-blur-md shadow-lg dark:bg-background/95" 
+          : " dark:bg-gray-900"}`
+      }
     >
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-20">
@@ -67,25 +70,25 @@ const Navigation = () => {
           <div className="hidden md:flex items-center gap-8">
             <button
               onClick={() => scrollToSection("home")}
-              className="text-foreground hover:text-primary transition-colors"
+              className="text-foreground dark:text-white hover:text-primary transition-colors"
             >
               Home
             </button>
             <button
               onClick={() => scrollToSection("about")}
-              className="text-foreground hover:text-primary transition-colors"
+              className="text-foreground dark:text-white hover:text-primary transition-colors"
             >
               Chi siamo
             </button>
             <button
               onClick={() => scrollToSection("events")}
-              className="text-foreground hover:text-primary transition-colors"
+              className="text-foreground dark:text-white hover:text-primary transition-colors"
             >
               Eventi
             </button>
             <button
               onClick={() => navigate("location")}
-              className="text-foreground hover:text-primary transition-colors"
+              className="text-foreground dark:text-white hover:text-primary transition-colors"
             >
               Dove siamo
             </button>
@@ -104,7 +107,7 @@ const Navigation = () => {
 
           {/* Pulsante Mobile */}
           <button
-            className="md:hidden text-foreground"
+            className="md:hidden text-foreground dark:text-white"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           >
             {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
@@ -113,28 +116,28 @@ const Navigation = () => {
 
         {/* Menu Mobile */}
         {isMobileMenuOpen && (
-          <div className="md:hidden py-4 space-y-4 border-t border-border bg-white">
+          <div className="md:hidden py-4 space-y-4 border-t border-border bg-background/95 dark:bg-background/95">
             <button
               onClick={() => scrollToSection("home")}
-              className="block w-full text-left text-foreground hover:text-primary transition-colors py-2"
+              className="block w-full text-left text-foreground dark:text-white hover:text-primary transition-colors py-2"
             >
               Home
             </button>
             <button
               onClick={() => scrollToSection("about")}
-              className="block w-full text-left text-foreground hover:text-primary transition-colors py-2"
+              className="block w-full text-left text-foreground dark:text-white hover:text-primary transition-colors py-2"
             >
               Chi siamo
             </button>
             <button
               onClick={() => scrollToSection("events")}
-              className="block w-full text-left text-foreground hover:text-primary transition-colors py-2"
+              className="block w-full text-left text-foreground dark:text-white hover:text-primary transition-colors py-2"
             >
               Eventi
             </button>
             <button
               onClick={() => navigate("location")}
-              className="block w-full text-left text-foreground hover:text-primary transition-colors py-2"
+              className="block w-full text-left text-foreground dark:text-white hover:text-primary transition-colors py-2"
             >
               Dove siamo
             </button>
