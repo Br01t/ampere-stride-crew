@@ -49,7 +49,7 @@ const FounderPage = () => {
           {founders.map((founder) => (
             <Card
               key={founder.name}
-              className="text-left border-2 border-transparent transition-all duration-300 transform hover:-translate-y-2 hover:shadow-xl hover:border-primary hover:shadow-[0_0_15px_rgba(59,130,246,0.7)]"
+              className="text-left border-2 border-transparent transition-all duration-300 transform hover:-translate-y-2 hover:shadow-xl hover:border-primary"
             >
               <CardHeader>
                 <Avatar className="w-24 h-24 mb-4">
