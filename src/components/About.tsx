@@ -31,7 +31,7 @@ const About = () => {
   useEffect(() => {
   const timer = setInterval(() => {
     const now = new Date();
-    const diff = nextRun - now;
+    const diff = nextRun.getTime() - now.getTime();
 
     if (diff <= 0) {
       setTimeLeft("È ora di correre!");

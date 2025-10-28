@@ -10,6 +10,16 @@ import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 import { z } from "zod";
 
+interface WeatherData {
+  name: string;
+  main: {
+    temp: number;
+  };
+  weather: Array<{
+    description: string;
+  }>;
+}
+
 const CITY = "Milano";
 const API_CITY = "Milan";
 
@@ -17,7 +27,7 @@ const Contact = () => {
   const { toast } = useToast();
   const [formData, setFormData] = useState({ name: "", email: "", message: "" });
   const [errors, setErrors] = useState<Record<string, string>>({});
-  const [weather, setWeather] = useState<any>(null);
+  const [weather, setWeather] = useState<WeatherData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 

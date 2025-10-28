@@ -2,25 +2,32 @@ import { useState, useEffect } from "react";
 import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
+import { useNavigate, useLocation } from "react-router-dom";
 
 const Navigation = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
-    };
+    const handleScroll = () => setIsScrolled(window.scrollY > 50);
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   const scrollToSection = (id: string) => {
-    const element = document.getElementById(id);
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth" });
-      setIsMobileMenuOpen(false);
+    if (location.pathname !== "/") {
+      navigate("/");
+      setTimeout(() => {
+        const el = document.getElementById(id);
+        if (el) el.scrollIntoView({ behavior: "smooth" });
+      }, 100);
+    } else {
+      const el = document.getElementById(id);
+      if (el) el.scrollIntoView({ behavior: "smooth" });
     }
+    setIsMobileMenuOpen(false);
   };
 
   return (
@@ -35,66 +42,28 @@ const Navigation = () => {
             Ampere Running Club
           </h1>
 
-          {/* Desktop Menu */}
           <div className="hidden md:flex items-center gap-8">
-            <button
-              onClick={() => scrollToSection("home")}
-              className="text-foreground hover:text-primary transition-colors"
-            >
-              Home
-            </button>
-            <button
-              onClick={() => scrollToSection("about")}
-              className="text-foreground hover:text-primary transition-colors"
-            >
-              Chi siamo
-            </button>
-            <button
-              onClick={() => scrollToSection("events")}
-              className="text-foreground hover:text-primary transition-colors"
-            >
-              Eventi
-            </button>
+            <button onClick={() => scrollToSection("home")} className="text-foreground hover:text-primary transition-colors">Home</button>
+            <button onClick={() => scrollToSection("about")} className="text-foreground hover:text-primary transition-colors">Chi siamo</button>
+            <button onClick={() => scrollToSection("events")} className="text-foreground hover:text-primary transition-colors">Eventi</button>
+            <button onClick={() => navigate("statistics")} className="text-foreground hover:text-primary transition-colors">Statistiche</button>
             <ThemeToggle />
-            <Button onClick={() => scrollToSection("contact")} size="sm">
-              Contatti
-            </Button>
+            <Button onClick={() => scrollToSection("contact")} size="sm">Contatti</Button>
           </div>
 
-          {/* Mobile Menu Button */}
-          <button
-            className="md:hidden text-foreground"
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          >
+          <button className="md:hidden text-foreground" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
             {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
         </div>
 
-        {/* Mobile Menu */}
         {isMobileMenuOpen && (
           <div className="md:hidden py-4 space-y-4 border-t border-border">
-            <button
-              onClick={() => scrollToSection("home")}
-              className="block w-full text-left text-foreground hover:text-primary transition-colors py-2"
-            >
-              Home
-            </button>
-            <button
-              onClick={() => scrollToSection("about")}
-              className="block w-full text-left text-foreground hover:text-primary transition-colors py-2"
-            >
-              Chi siamo
-            </button>
-            <button
-              onClick={() => scrollToSection("events")}
-              className="block w-full text-left text-foreground hover:text-primary transition-colors py-2"
-            >
-              Eventi
-            </button>
+            <button onClick={() => scrollToSection("home")} className="block w-full text-left text-foreground hover:text-primary transition-colors py-2">Home</button>
+            <button onClick={() => scrollToSection("about")} className="block w-full text-left text-foreground hover:text-primary transition-colors py-2">Chi siamo</button>
+            <button onClick={() => scrollToSection("events")} className="block w-full text-left text-foreground hover:text-primary transition-colors py-2">Eventi</button>
+            <button onClick={() => navigate("statistics")} className="block w-full text-left text-foreground hover:text-primary transition-colors py-2">Statistiche</button>
             <ThemeToggle />
-            <Button onClick={() => scrollToSection("contact")} className="w-full">
-              Contatti
-            </Button>
+            <Button onClick={() => scrollToSection("contact")} className="w-full">Contatti</Button>
           </div>
         )}
       </div>
