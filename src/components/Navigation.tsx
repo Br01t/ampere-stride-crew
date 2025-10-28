@@ -22,7 +22,7 @@ const Navigation = () => {
     const interval = setInterval(() => {
       const hue = Math.floor(Math.random() * 360);
       setColor(`hsl(${hue}, 100%, 50%)`);
-    }, 300); // cambia colore ogni 300ms
+    }, 300);
     return () => clearInterval(interval);
   }, []);
 
@@ -40,22 +40,57 @@ const Navigation = () => {
     setIsMobileMenuOpen(false);
   };
 
+  const goHome = () => {
+    if (location.pathname !== "/") {
+      navigate("/");
+    } else {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  };
+
   return (
     <nav
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled ? "bg-background/95 backdrop-blur-md shadow-lg" : "bg-transparent"
+        isScrolled
+          ? "bg-background/95 backdrop-blur-md shadow-lg"
+          : "bg-transparent"
       }`}
     >
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-20">
-          <h1 className="text-2xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+          {/* LOGO CLICCABILE */}
+          <button
+            onClick={goHome}
+            className="text-2xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent hover:opacity-80 transition-opacity"
+          >
             Ampere Running Club
-          </h1>
+          </button>
 
           <div className="hidden md:flex items-center gap-8">
-            <button onClick={() => scrollToSection("home")} className="text-foreground hover:text-primary transition-colors">Home</button>
-            <button onClick={() => scrollToSection("about")} className="text-foreground hover:text-primary transition-colors">Chi siamo</button>
-            <button onClick={() => scrollToSection("events")} className="text-foreground hover:text-primary transition-colors">Eventi</button>
+            <button
+              onClick={() => scrollToSection("home")}
+              className="text-foreground hover:text-primary transition-colors"
+            >
+              Home
+            </button>
+            <button
+              onClick={() => scrollToSection("about")}
+              className="text-foreground hover:text-primary transition-colors"
+            >
+              Chi siamo
+            </button>
+            <button
+              onClick={() => scrollToSection("events")}
+              className="text-foreground hover:text-primary transition-colors"
+            >
+              Eventi
+            </button>
+            <button
+              onClick={() => navigate("location")}
+              className="text-foreground hover:text-primary transition-colors"
+            >
+              Dove siamo
+            </button>
             <button
               onClick={() => navigate("statistics")}
               className="transition-colors"
@@ -64,22 +99,59 @@ const Navigation = () => {
               Stats
             </button>
             <ThemeToggle />
-            <Button onClick={() => scrollToSection("contact")} size="sm">Contatti</Button>
+            <Button onClick={() => scrollToSection("contact")} size="sm">
+              Contatti
+            </Button>
           </div>
 
-          <button className="md:hidden text-foreground" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
+          <button
+            className="md:hidden text-foreground"
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          >
             {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
         </div>
 
         {isMobileMenuOpen && (
           <div className="md:hidden py-4 space-y-4 border-t border-border bg-white">
-            <button onClick={() => scrollToSection("home")} className="block w-full text-left text-foreground hover:text-primary transition-colors py-2">Home</button>
-            <button onClick={() => scrollToSection("about")} className="block w-full text-left text-foreground hover:text-primary transition-colors py-2">Chi siamo</button>
-            <button onClick={() => scrollToSection("events")} className="block w-full text-left text-foreground hover:text-primary transition-colors py-2">Eventi</button>
-            <button onClick={() => navigate("statistics")} className="block w-full text-left transition-colors py-2" style={{ color }}>Stats</button>
+            <button
+              onClick={() => scrollToSection("home")}
+              className="block w-full text-left text-foreground hover:text-primary transition-colors py-2"
+            >
+              Home
+            </button>
+            <button
+              onClick={() => scrollToSection("about")}
+              className="block w-full text-left text-foreground hover:text-primary transition-colors py-2"
+            >
+              Chi siamo
+            </button>
+            <button
+              onClick={() => scrollToSection("events")}
+              className="block w-full text-left text-foreground hover:text-primary transition-colors py-2"
+            >
+              Eventi
+            </button>
+            <button
+              onClick={() => navigate("location")}
+              className="block w-full text-left text-foreground hover:text-primary transition-colors py-2"
+            >
+              Dove siamo
+            </button>
+            <button
+              onClick={() => navigate("statistics")}
+              className="block w-full text-left transition-colors py-2"
+              style={{ color }}
+            >
+              Stats
+            </button>
             <ThemeToggle />
-            <Button onClick={() => scrollToSection("contact")} className="w-full">Contatti</Button>
+            <Button
+              onClick={() => scrollToSection("contact")}
+              className="w-full"
+            >
+              Contatti
+            </Button>
           </div>
         )}
       </div>

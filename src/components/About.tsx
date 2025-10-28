@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Heart, Users, Trophy, Target } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
+import { Link } from "react-router-dom";
 
 const formatDate = (date) => {
   const options = { weekday: "long", year: "numeric", month: "long", day: "numeric" };
@@ -75,8 +76,11 @@ const About = () => {
           <h2 className="text-4xl md:text-5xl font-bold mb-4">Chi Siamo</h2>
           <div className="w-20 h-1 bg-gradient-to-r from-primary to-accent mx-auto mb-6" />
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Ampere Running Club nasce dall'amicizia di quattro runner che vivono nella stessa
-            strada. Quello che è iniziato come un modo per allenarsi insieme si è trasformato
+            Ampere Running Club nasce dall'amicizia di{" "}
+            <Link to="/founder" className="text-primary font-semibold underline hover:text-accent transition-colors">
+              quattro runner
+            </Link>{" "}
+            che vivono nella stessa strada. Quello che è iniziato come un modo per allenarsi insieme si è trasformato
             in una passione condivisa che ci spinge ogni giorno a dare il massimo.
           </p>
         </div>

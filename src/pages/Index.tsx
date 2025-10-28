@@ -27,7 +27,6 @@ const Index = () => {
       <About />
       <Events />
       <Contact />
-      <Footer />
     </div>
   );
 };
