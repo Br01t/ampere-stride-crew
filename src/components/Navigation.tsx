@@ -7,6 +7,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 const Navigation = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [color, setColor] = useState("hsl(0, 100%, 50%)");
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -14,6 +15,15 @@ const Navigation = () => {
     const handleScroll = () => setIsScrolled(window.scrollY > 50);
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  // Cambia colore continuamente
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const hue = Math.floor(Math.random() * 360);
+      setColor(`hsl(${hue}, 100%, 50%)`);
+    }, 300); // cambia colore ogni 300ms
+    return () => clearInterval(interval);
   }, []);
 
   const scrollToSection = (id: string) => {
@@ -46,7 +56,13 @@ const Navigation = () => {
             <button onClick={() => scrollToSection("home")} className="text-foreground hover:text-primary transition-colors">Home</button>
             <button onClick={() => scrollToSection("about")} className="text-foreground hover:text-primary transition-colors">Chi siamo</button>
             <button onClick={() => scrollToSection("events")} className="text-foreground hover:text-primary transition-colors">Eventi</button>
-            <button onClick={() => navigate("statistics")} className="text-foreground hover:text-primary transition-colors">Statistiche</button>
+            <button
+              onClick={() => navigate("statistics")}
+              className="transition-colors"
+              style={{ color }}
+            >
+              Stats
+            </button>
             <ThemeToggle />
             <Button onClick={() => scrollToSection("contact")} size="sm">Contatti</Button>
           </div>
@@ -57,11 +73,11 @@ const Navigation = () => {
         </div>
 
         {isMobileMenuOpen && (
-          <div className="md:hidden py-4 space-y-4 border-t border-border">
+          <div className="md:hidden py-4 space-y-4 border-t border-border bg-white">
             <button onClick={() => scrollToSection("home")} className="block w-full text-left text-foreground hover:text-primary transition-colors py-2">Home</button>
             <button onClick={() => scrollToSection("about")} className="block w-full text-left text-foreground hover:text-primary transition-colors py-2">Chi siamo</button>
             <button onClick={() => scrollToSection("events")} className="block w-full text-left text-foreground hover:text-primary transition-colors py-2">Eventi</button>
-            <button onClick={() => navigate("statistics")} className="block w-full text-left text-foreground hover:text-primary transition-colors py-2">Statistiche</button>
+            <button onClick={() => navigate("statistics")} className="block w-full text-left transition-colors py-2" style={{ color }}>Stats</button>
             <ThemeToggle />
             <Button onClick={() => scrollToSection("contact")} className="w-full">Contatti</Button>
           </div>
