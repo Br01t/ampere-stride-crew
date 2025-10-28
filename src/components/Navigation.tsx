@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { ThemeToggle } from "@/components/ui/theme-toggle";
 
 const Navigation = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -46,7 +47,7 @@ const Navigation = () => {
               onClick={() => scrollToSection("about")}
               className="text-foreground hover:text-primary transition-colors"
             >
-              Chi Siamo
+              Chi siamo
             </button>
             <button
               onClick={() => scrollToSection("events")}
@@ -54,6 +55,7 @@ const Navigation = () => {
             >
               Eventi
             </button>
+            <ThemeToggle />
             <Button onClick={() => scrollToSection("contact")} size="sm">
               Contatti
             </Button>
@@ -81,7 +83,7 @@ const Navigation = () => {
               onClick={() => scrollToSection("about")}
               className="block w-full text-left text-foreground hover:text-primary transition-colors py-2"
             >
-              Chi Siamo
+              Chi siamo
             </button>
             <button
               onClick={() => scrollToSection("events")}
@@ -89,6 +91,7 @@ const Navigation = () => {
             >
               Eventi
             </button>
+            <ThemeToggle />
             <Button onClick={() => scrollToSection("contact")} className="w-full">
               Contatti
             </Button>

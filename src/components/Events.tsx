@@ -1,3 +1,5 @@
+"use client";
+
 import { Calendar, MapPin, Clock, Users } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -10,7 +12,8 @@ const Events = () => {
       time: "18:30 - 20:00",
       location: "Piazza Ampere",
       type: "Allenamento",
-      description: "Sessione di allenamento per tutti i livelli. Riscaldamento, corsa e stretching.",
+      description:
+        "Sessione di allenamento per tutti i livelli. Riscaldamento, corsa e stretching.",
       participants: "4-8",
     },
     {
@@ -58,8 +61,9 @@ const Events = () => {
   };
 
   return (
-    <section id="events" className="py-24 bg-muted/30">
+    <section id="events" className="py-12 bg-muted/30">
       <div className="container mx-auto px-4">
+        {/* Titolo */}
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-bold mb-4">Prossimi Eventi</h2>
           <div className="w-20 h-1 bg-gradient-to-r from-primary to-accent mx-auto mb-6" />
@@ -69,6 +73,7 @@ const Events = () => {
           </p>
         </div>
 
+        {/* Lista Eventi */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-6xl mx-auto">
           {events.map((event, index) => (
             <Card

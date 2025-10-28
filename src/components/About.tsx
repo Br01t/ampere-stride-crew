@@ -1,33 +1,76 @@
+import { useState, useEffect } from "react";
 import { Heart, Users, Trophy, Target } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 
+const formatDate = (date) => {
+  const options = { weekday: "long", year: "numeric", month: "long", day: "numeric" };
+  
+  // Ottieni la parte data senza ora
+  let formatted = date.toLocaleDateString("it-IT", options);
+
+  // Metti la prima lettera del giorno in maiuscolo
+  formatted = formatted.replace(/^./, (c) => c.toUpperCase());
+
+  // Metti la prima lettera del mese in maiuscolo
+  // Assume che il mese sia la seconda parola dopo il giorno
+  formatted = formatted.replace(/ (\w+) (\d{4})$/, (match, month, year) => {
+    return ` ${month.charAt(0).toUpperCase() + month.slice(1)} ${year}`;
+  });
+
+  // Aggiungi l’ora
+  const hours = date.getHours().toString().padStart(2, "0");
+  const minutes = date.getMinutes().toString().padStart(2, "0");
+
+  return `${formatted} alle ore ${hours}:${minutes}`;
+};
+
 const About = () => {
+  const nextRun = new Date("2025-11-05T09:00:00");
+  const [timeLeft, setTimeLeft] = useState("");
+
+  useEffect(() => {
+  const timer = setInterval(() => {
+    const now = new Date();
+    const diff = nextRun - now;
+
+    if (diff <= 0) {
+      setTimeLeft("È ora di correre!");
+      clearInterval(timer);
+      return;
+    }
+
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+    const minutes = Math.floor((diff / (1000 * 60)) % 60);
+    const seconds = Math.floor((diff / 1000) % 60);
+
+    setTimeLeft(`${days} giorni - ${hours} ore - ${minutes} minuti - ${seconds} secondi`);
+  }, 1000);
+
+  return () => clearInterval(timer);
+}, []);
+
   const values = [
-    {
-      icon: Heart,
-      title: "Passione",
-      description: "La corsa è nel nostro DNA. Ogni passo è un'emozione condivisa.",
-    },
-    {
-      icon: Users,
-      title: "Comunità",
-      description: "Quattro amici che corrono insieme, crescono insieme.",
-    },
-    {
-      icon: Trophy,
-      title: "Obiettivi",
-      description: "Spingerci oltre i nostri limiti, un chilometro alla volta.",
-    },
-    {
-      icon: Target,
-      title: "Determinazione",
-      description: "Ogni allenamento è un passo verso i nostri sogni.",
-    },
+    { icon: Heart, title: "Passione", description: "La corsa è nel nostro DNA. Ogni passo è un'emozione condivisa." },
+    { icon: Users, title: "Comunità", description: "Quattro amici che corrono insieme, crescono insieme." },
+    { icon: Trophy, title: "Obiettivi", description: "Spingerci oltre i nostri limiti, un chilometro alla volta." },
+    { icon: Target, title: "Determinazione", description: "Ogni allenamento è un passo verso i nostri sogni." },
   ];
 
   return (
     <section id="about" className="py-24 bg-gradient-to-b from-background to-muted/30">
       <div className="container mx-auto px-4">
+
+        {/* Banner Countdown */}
+        <div className="mb-12 rounded-lg overflow-hidden shadow-lg">
+          <div className="bg-gradient-to-r from-primary to-accent text-white px-6 py-4 text-center">
+            <p className="text-sm uppercase tracking-wide">Prossima corsa di gruppo</p>
+            <h3 className="text-2xl md:text-3xl font-bold mt-1">{formatDate(nextRun)}</h3>
+            <p className="mt-2 text-lg">{timeLeft}</p>
+          </div>
+        </div>
+
+        {/* Titolo Chi Siamo */}
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-bold mb-4">Chi Siamo</h2>
           <div className="w-20 h-1 bg-gradient-to-r from-primary to-accent mx-auto mb-6" />
@@ -38,6 +81,7 @@ const About = () => {
           </p>
         </div>
 
+        {/* Valori */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
           {values.map((value, index) => (
             <Card
@@ -55,6 +99,7 @@ const About = () => {
           ))}
         </div>
 
+        {/* Scopo */}
         <div className="max-w-3xl mx-auto text-center space-y-6">
           <h3 className="text-2xl font-bold">Il Nostro Scopo</h3>
           <p className="text-lg text-muted-foreground">
