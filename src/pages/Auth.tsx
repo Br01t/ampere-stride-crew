@@ -1,3 +1,4 @@
+// src/pages/Auth.tsx
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
@@ -6,7 +7,8 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
-import { Footprints } from 'lucide-react'; // piccola icona per dare atmosfera 🏃‍♂️
+import { Footprints } from 'lucide-react'; // Icona passi
+import { FcGoogle } from 'react-icons/fc';  // Icona Google
 
 const Auth = () => {
   const [isLogin, setIsLogin] = useState(true);
@@ -14,7 +16,7 @@ const Auth = () => {
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   
-  const { signIn, signUp } = useAuth();
+  const { signIn, signUp, googleSignIn } = useAuth();
   const navigate = useNavigate();
   const { toast } = useToast();
 
@@ -49,6 +51,29 @@ const Auth = () => {
       toast({
         title: "Errore",
         description: errorMessage,
+        variant: "destructive",
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // --------------------
+  // Login con Google
+  // --------------------
+  const handleGoogleSignIn = async () => {
+    setLoading(true);
+    try {
+      await googleSignIn();
+      toast({
+        title: "Accesso con Google effettuato!",
+        description: "Benvenuto/a nel club 🏃‍♂️",
+      });
+      navigate('/');
+    } catch (error) {
+      toast({
+        title: "Errore",
+        description: "Impossibile completare l'accesso con Google.",
         variant: "destructive",
       });
     } finally {
@@ -105,6 +130,20 @@ const Auth = () => {
             </Button>
           </form>
 
+          {/* Pulsante Google */}
+          <div className="mt-4">
+            <Button
+              type="button"
+              variant="outline"
+              className="w-full flex items-center justify-center gap-2"
+              onClick={handleGoogleSignIn}
+              disabled={loading}
+            >
+              <FcGoogle className="w-5 h-5" />
+              Continua con Google
+            </Button>
+          </div>
+
           <div className="mt-4 text-center">
             <button
               type="button"
@@ -128,7 +167,7 @@ const Auth = () => {
             </Button>
           </div>
 
-          {/* Piccola sezione motivazionale */}
+          {/* Sezione motivazionale */}
           <p className="mt-6 text-sm text-center text-muted-foreground">
             “Ogni passo conta — entra a far parte della community di runner che non si ferma mai.” 🏃‍♀️
           </p>
