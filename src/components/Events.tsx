@@ -1,49 +1,43 @@
-"use client";
-
+import { useEffect, useState } from "react";
 import { Calendar, MapPin, Clock, Users } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { collection, getDocs } from 'firebase/firestore';
+import { db } from '@/lib/firebase';
+
+interface Event {
+  id: string;
+  title: string;
+  date: string;
+  time: string;
+  location: string;
+  type: string;
+  description: string;
+  participants: string;
+}
 
 const Events = () => {
-  const events = [
-    {
-      title: "Allenamento Settimanale",
-      date: "Ogni Martedì e Giovedì",
-      time: "18:30 - 20:00",
-      location: "Piazza Ampere",
-      type: "Allenamento",
-      description:
-        "Sessione di allenamento per tutti i livelli. Riscaldamento, corsa e stretching.",
-      participants: "4-8",
-    },
-    {
-      title: "Long Run Domenicale",
-      date: "Ogni Domenica",
-      time: "08:00 - 10:00",
-      location: "Parco Sempione",
-      type: "Long Run",
-      description: "Corsa lunga a ritmo rilassato. Ideale per costruire resistenza.",
-      participants: "4-6",
-    },
-    {
-      title: "Mezza Maratona Milano",
-      date: "15 Novembre 2025",
-      time: "09:00",
-      location: "Milano Centro",
-      type: "Gara",
-      description: "Partecipiamo insieme alla mezza maratona di Milano!",
-      participants: "4",
-    },
-    {
-      title: "Trail Running",
-      date: "23 Novembre 2025",
-      time: "09:00 - 12:00",
-      location: "Monti Brianza",
-      type: "Avventura",
-      description: "Esploriamo i sentieri di montagna per una corsa nella natura.",
-      participants: "4",
-    },
-  ];
+  const [events, setEvents] = useState<Event[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const loadEvents = async () => {
+      try {
+        const eventsSnapshot = await getDocs(collection(db, 'events'));
+        const eventsData = eventsSnapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data()
+        } as Event));
+        setEvents(eventsData);
+      } catch (error) {
+        console.error('Errore nel caricamento degli eventi:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadEvents();
+  }, []);
 
   const getTypeBadgeVariant = (type: string) => {
     switch (type) {
@@ -75,11 +69,20 @@ const Events = () => {
 
         {/* Lista Eventi */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-6xl mx-auto">
-          {events.map((event, index) => (
-            <Card
-              key={index}
-              className="hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border-2 hover:border-primary"
-            >
+          {loading ? (
+            <div className="col-span-full text-center py-12">
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto"></div>
+            </div>
+          ) : events.length === 0 ? (
+            <div className="col-span-full text-center py-12">
+              <p className="text-muted-foreground">Nessun evento disponibile al momento.</p>
+            </div>
+          ) : (
+            events.map((event) => (
+              <Card
+                key={event.id}
+                className="hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border-2 hover:border-primary"
+              >
               <CardHeader>
                 <div className="flex items-start justify-between mb-2">
                   <CardTitle className="text-xl">{event.title}</CardTitle>
@@ -107,8 +110,9 @@ const Events = () => {
                   </div>
                 </div>
               </CardContent>
-            </Card>
-          ))}
+              </Card>
+            ))
+          )}
         </div>
       </div>
     </section>
