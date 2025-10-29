@@ -12,7 +12,7 @@ const Navigation = () => {
   const [color, setColor] = useState("hsl(0, 100%, 50%)");
   const navigate = useNavigate();
   const location = useLocation();
-  const { user, isAdmin, logout } = useAuth();
+  const { user, logout } = useAuth();
   const { toast } = useToast();
 
   const handleLogout = async () => {
@@ -120,14 +120,6 @@ const Navigation = () => {
             >
               Stats
             </button>
-            {isAdmin && (
-              <button
-                onClick={() => navigate("/dashboard")}
-                className="text-foreground dark:text-white hover:text-primary transition-colors font-medium"
-              >
-                Dashboard
-              </button>
-            )}
             <ThemeToggle />
             {user ? (
               <Button onClick={handleLogout} size="sm" variant="outline">
@@ -188,17 +180,6 @@ const Navigation = () => {
             >
               Stats
             </button>
-            {isAdmin && (
-              <button
-                onClick={() => {
-                  navigate("/dashboard");
-                  setIsMobileMenuOpen(false);
-                }}
-                className="block w-full text-left text-foreground dark:text-white hover:text-primary transition-colors py-2 font-medium"
-              >
-                Dashboard
-              </button>
-            )}
             <ThemeToggle />
             {user ? (
               <Button onClick={handleLogout} variant="outline" className="w-full">

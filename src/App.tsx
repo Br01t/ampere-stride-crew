@@ -8,13 +8,11 @@ import { AuthProvider } from "@/contexts/AuthContext";
 
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
-import ProtectedRoute from "@/components/ProtectedRoute";
 import Index from "@/pages/Index";
 import Location from "@/pages/Location";
 import Founder from "@/pages/Founder";
 import Statistics from "@/pages/Statistics";
 import Auth from "@/pages/Auth";
-import Dashboard from "@/pages/Dashboard";
 import NotFound from "@/pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -32,14 +30,6 @@ const App = () => (
           <Route path="/location" element={<Location />} />
           <Route path="/statistics" element={<Statistics />} />
           <Route path="/founder" element={<Founder />} />
-          <Route 
-            path="/dashboard" 
-            element={
-              <ProtectedRoute requireAdmin>
-                <Dashboard />
-              </ProtectedRoute>
-            } 
-          />
           <Route path="*" element={<NotFound />} />
         </Routes>
         <Footer />

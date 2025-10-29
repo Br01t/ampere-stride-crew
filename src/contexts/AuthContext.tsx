@@ -6,13 +6,11 @@ import {
   signOut,
   onAuthStateChanged
 } from 'firebase/auth';
-import { doc, getDoc } from 'firebase/firestore';
-import { auth, db } from '@/lib/firebase';
+import { auth } from '@/lib/firebase';
 
 interface AuthContextType {
   user: User | null;
   loading: boolean;
-  isAdmin: boolean;
   signUp: (email: string, password: string) => Promise<void>;
   signIn: (email: string, password: string) => Promise<void>;
   logout: () => Promise<void>;
@@ -31,20 +29,10 @@ export const useAuth = () => {
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
-  const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
       setUser(user);
-      
-      if (user) {
-        // Controlla se l'utente è admin
-        const roleDoc = await getDoc(doc(db, 'user_roles', user.uid));
-        setIsAdmin(roleDoc.exists() && roleDoc.data()?.role === 'admin');
-      } else {
-        setIsAdmin(false);
-      }
-      
       setLoading(false);
     });
 
@@ -66,7 +54,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const value = {
     user,
     loading,
-    isAdmin,
     signUp,
     signIn,
     logout
