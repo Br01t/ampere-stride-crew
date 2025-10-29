@@ -6,6 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
+import { Footprints } from 'lucide-react'; // piccola icona per dare atmosfera 🏃‍♂️
 
 const Auth = () => {
   const [isLogin, setIsLogin] = useState(true);
@@ -26,13 +27,13 @@ const Auth = () => {
         await signIn(email, password);
         toast({
           title: "Login effettuato!",
-          description: "Benvenuto/a!",
+          description: "Benvenuto/a tra i runner di Ampere!",
         });
       } else {
         await signUp(email, password);
         toast({
           title: "Registrazione completata!",
-          description: "Account creato con successo.",
+          description: "Account creato con successo — sei pronto per correre con noi!",
         });
       }
       navigate('/');
@@ -56,14 +57,22 @@ const Auth = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-background p-4">
-      <Card className="w-full max-w-md">
+    <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-b from-orange-50 to-orange-100 dark:from-slate-900 dark:to-slate-950 p-4">
+      {/* Header con logo/testo */}
+      <div className="mb-6 flex items-center space-x-2">
+        <Footprints className="w-8 h-8 text-orange-600" />
+        <h1 className="text-2xl font-bold text-orange-700 dark:text-orange-400">
+          Ampere Running Club
+        </h1>
+      </div>
+
+      <Card className="w-full max-w-md shadow-lg border-orange-200 dark:border-slate-700">
         <CardHeader>
-          <CardTitle>{isLogin ? 'Accedi' : 'Registrati'}</CardTitle>
+          <CardTitle>{isLogin ? 'Accedi al tuo profilo' : 'Unisciti al club'}</CardTitle>
           <CardDescription>
             {isLogin 
-              ? 'Accedi al tuo account' 
-              : 'Crea un nuovo account'}
+              ? 'Accedi per tenere traccia dei tuoi allenamenti e partecipare agli eventi del club.'
+              : 'Registrati e inizia a correre con la community Ampere!'}
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -91,21 +100,23 @@ const Auth = () => {
                 minLength={6}
               />
             </div>
-            <Button type="submit" className="w-full" disabled={loading}>
+            <Button type="submit" className="w-full bg-orange-600 hover:bg-orange-700" disabled={loading}>
               {loading ? 'Caricamento...' : isLogin ? 'Accedi' : 'Registrati'}
             </Button>
           </form>
+
           <div className="mt-4 text-center">
             <button
               type="button"
               onClick={() => setIsLogin(!isLogin)}
-              className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+              className="text-sm text-muted-foreground hover:text-orange-700 transition-colors"
             >
               {isLogin 
-                ? 'Non hai un account? Registrati' 
+                ? 'Non hai un account? Unisciti al club' 
                 : 'Hai già un account? Accedi'}
             </button>
           </div>
+
           <div className="mt-4">
             <Button
               type="button"
@@ -113,9 +124,14 @@ const Auth = () => {
               className="w-full"
               onClick={() => navigate('/')}
             >
-              Torna alla home
+              Torna alla home del club
             </Button>
           </div>
+
+          {/* Piccola sezione motivazionale */}
+          <p className="mt-6 text-sm text-center text-muted-foreground">
+            “Ogni passo conta — entra a far parte della community di runner che non si ferma mai.” 🏃‍♀️
+          </p>
         </CardContent>
       </Card>
     </div>
