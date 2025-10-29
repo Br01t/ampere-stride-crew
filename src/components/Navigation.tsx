@@ -1,8 +1,10 @@
 import { useState, useEffect } from "react";
-import { Menu, X } from "lucide-react";
+import { Menu, X, LogOut, LogIn } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { useNavigate, useLocation } from "react-router-dom";
+import { useAuth } from "@/contexts/AuthContext";
+import { useToast } from "@/hooks/use-toast";
 
 const Navigation = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -10,6 +12,25 @@ const Navigation = () => {
   const [color, setColor] = useState("hsl(0, 100%, 50%)");
   const navigate = useNavigate();
   const location = useLocation();
+  const { user, logout } = useAuth();
+  const { toast } = useToast();
+
+  const handleLogout = async () => {
+    try {
+      await logout();
+      toast({
+        title: "Logout effettuato",
+        description: "A presto!",
+      });
+      navigate('/');
+    } catch (error) {
+      toast({
+        title: "Errore",
+        description: "Errore durante il logout",
+        variant: "destructive",
+      });
+    }
+  };
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 50);
@@ -100,6 +121,17 @@ const Navigation = () => {
               Stats
             </button>
             <ThemeToggle />
+            {user ? (
+              <Button onClick={handleLogout} size="sm" variant="outline">
+                <LogOut className="w-4 h-4 mr-2" />
+                Logout
+              </Button>
+            ) : (
+              <Button onClick={() => navigate('/auth')} size="sm" variant="outline">
+                <LogIn className="w-4 h-4 mr-2" />
+                Login
+              </Button>
+            )}
             <Button onClick={() => scrollToSection("contact")} size="sm">
               Contatti
             </Button>
@@ -149,6 +181,17 @@ const Navigation = () => {
               Stats
             </button>
             <ThemeToggle />
+            {user ? (
+              <Button onClick={handleLogout} variant="outline" className="w-full">
+                <LogOut className="w-4 h-4 mr-2" />
+                Logout
+              </Button>
+            ) : (
+              <Button onClick={() => navigate('/auth')} variant="outline" className="w-full">
+                <LogIn className="w-4 h-4 mr-2" />
+                Login
+              </Button>
+            )}
             <Button
               onClick={() => scrollToSection("contact")}
               className="w-full"
