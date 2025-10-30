@@ -121,14 +121,14 @@ const Navigation = () => {
               Stats
             </button>
             <ThemeToggle />
-            {isAdmin && (
+            {/* {isAdmin && (
               <button
                 onClick={() => navigate("/dashboard")}
                 className="text-foreground dark:text-white hover:text-primary transition-colors"
               >
                 Dashboard
               </button>
-            )}
+            )} */}
             {user ? (
               <>
                 <Button onClick={() => navigate('/profile')} size="sm" variant="ghost">
