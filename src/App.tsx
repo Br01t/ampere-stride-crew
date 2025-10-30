@@ -13,7 +13,9 @@ import Location from "@/pages/Location";
 import Founder from "@/pages/Founder";
 import Statistics from "@/pages/Statistics";
 import Auth from "@/pages/Auth";
+import Profile from "@/pages/Profile";
 import NotFound from "@/pages/NotFound";
+import ProtectedRoute from "@/components/ProtectedRoute";
 
 const queryClient = new QueryClient();
 
@@ -30,6 +32,7 @@ const App = () => (
           <Route path="/location" element={<Location />} />
           <Route path="/statistics" element={<Statistics />} />
           <Route path="/founder" element={<Founder />} />
+          <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
           <Route path="*" element={<NotFound />} />
         </Routes>
         <Footer />

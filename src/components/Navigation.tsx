@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Menu, X, LogOut, LogIn } from "lucide-react";
+import { Menu, X, LogOut, LogIn, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { useNavigate, useLocation } from "react-router-dom";
@@ -12,7 +12,7 @@ const Navigation = () => {
   const [color, setColor] = useState("hsl(0, 100%, 50%)");
   const navigate = useNavigate();
   const location = useLocation();
-  const { user, logout } = useAuth();
+  const { user, logout, isAdmin } = useAuth();
   const { toast } = useToast();
 
   const handleLogout = async () => {
@@ -121,11 +121,25 @@ const Navigation = () => {
               Stats
             </button>
             <ThemeToggle />
+            {isAdmin && (
+              <button
+                onClick={() => navigate("/dashboard")}
+                className="text-foreground dark:text-white hover:text-primary transition-colors"
+              >
+                Dashboard
+              </button>
+            )}
             {user ? (
-              <Button onClick={handleLogout} size="sm" variant="outline">
-                <LogOut className="w-4 h-4 mr-2" />
-                Logout
-              </Button>
+              <>
+                <Button onClick={() => navigate('/profile')} size="sm" variant="ghost">
+                  <User className="w-4 h-4 mr-2" />
+                  Profilo
+                </Button>
+                <Button onClick={handleLogout} size="sm" variant="outline">
+                  <LogOut className="w-4 h-4 mr-2" />
+                  Logout
+                </Button>
+              </>
             ) : (
               <Button onClick={() => navigate('/auth')} size="sm" variant="outline">
                 <LogIn className="w-4 h-4 mr-2" />
@@ -181,11 +195,31 @@ const Navigation = () => {
               Stats
             </button>
             <ThemeToggle />
+            {isAdmin && (
+              <button
+                onClick={() => {
+                  navigate("/dashboard");
+                  setIsMobileMenuOpen(false);
+                }}
+                className="block w-full text-left text-foreground dark:text-white hover:text-primary transition-colors py-2"
+              >
+                Dashboard
+              </button>
+            )}
             {user ? (
-              <Button onClick={handleLogout} variant="outline" className="w-full">
-                <LogOut className="w-4 h-4 mr-2" />
-                Logout
-              </Button>
+              <>
+                <Button onClick={() => {
+                  navigate('/profile');
+                  setIsMobileMenuOpen(false);
+                }} variant="ghost" className="w-full justify-start">
+                  <User className="w-4 h-4 mr-2" />
+                  Profilo
+                </Button>
+                <Button onClick={handleLogout} variant="outline" className="w-full">
+                  <LogOut className="w-4 h-4 mr-2" />
+                  Logout
+                </Button>
+              </>
             ) : (
               <Button onClick={() => navigate('/auth')} variant="outline" className="w-full">
                 <LogIn className="w-4 h-4 mr-2" />
